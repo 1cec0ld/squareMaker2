@@ -1,4 +1,25 @@
 <html>
+
+    <?php
+        if(isset($_GET['value'])){
+            echo "<script src='//code.jquery.com/jquery-1.11.0.min.js'></script>
+            <script>";
+            echo "function showText(id,delay){
+                var elem=document.getElementById(id);
+                setTimeout(function(){elem.style.visibility='visible';},delay*100)
+            }
+                window.onload=function(){";
+            for($n = 0; $n <= $_GET['value']; $n++){
+                echo "
+                    showText('id".$n."',".$n.");
+                
+                ";
+            }
+            echo "
+            }
+                    </script>";
+        }
+    ?>
     <form action='index.php' method='GET'>
         <input type='number' min='0' max='10000' name='value'> 
         <input type='submit' value='Go'>
@@ -14,14 +35,19 @@ function print2DArray($arr){
     foreach($arr as $subarr){
         
         foreach($subarr as $val){
-            if($val < 10){
-                echo $val."    ";
-            } else if ($val < 100){
-                echo $val."   ";
-            } else if($val < 1000){
-                echo $val."  ";
-            } else if($val < 10000){
-                echo $val." ";
+            if(!isset($val)){
+                echo "     ";
+            } else {
+                echo "<span style='visibility:hidden' id='id".$val."'>".$val."</span>";
+                if($val < 10){
+                    echo "    ";
+                } else if ($val < 100){
+                    echo "   ";
+                } else if($val < 1000){
+                    echo "  ";
+                } else if($val < 10000){
+                    echo " ";
+                }
             }
         }
         echo "<br>";
@@ -47,19 +73,11 @@ if(isset($_GET['value'])){
 
         $orig = ($x >= $y ? $mSquared+2*$m-$y : $x+$mSquared);
     }
-    //number values are defined, now fill in the undefined values to complete the square
-    for($i = 0; $i < 10; $i++){
-        for($j = 0; $j < 10; $j++){
-            if(!isset($grid[$i][$j])){
-                $grid[$i][$j] = "_";
-            }
-        }
-    }
 
     print2DArray($grid);
 } else {
     echo "<br>Please input a number...";
     
 }
-
+    //see it in action at www.1cec0ld.net/square
 ?>
