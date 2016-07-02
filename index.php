@@ -1,7 +1,7 @@
 <?php
 
 
-For($n = 0; $n <37; $n++){
+for($n = 0; $n <37; $n++){
 
 $r = intval(sqrt($n));
 $s = pow($r, 2);
