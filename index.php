@@ -21,10 +21,15 @@
         }
     ?>
     <form action='index.php' method='GET'>
-        <input type='number' min='0' max='10000' name='value'> 
+        <input type='number' min='0' max='1000' name='value'> 
         <input type='submit' value='Go'>
     </form>
     <br>
+        $i = (2*intval(sqrt($n)%2)-1)*(intval((sqrt($n)+1)/2));<br>
+        $nm = (4*(pow($i,2))) - (2*$i);<br>
+<br>
+        $x = ($n >= $nm ? $i : $i-($i/abs($i))*($nm-$n));<br>
+        $y = ($n >= $nm ? $i+($i/abs($i))*($nm-$n) : $i);<br>
 </html>
 
 
@@ -58,14 +63,21 @@ function print2DArray($arr){
 
 if(isset($_GET['value'])){
     $grid = array();
+    for($m=0;$m<33;$m++){
+        for($k=0;$k<33;$k++){
+            $grid[$k][$m] = ' ';
+        }
+    }
+    echo '<div id="thing" align="center">';
+    $grid[16][16] = 0;
+    for($n = 1; $n <= $_GET['value']; $n++){
+        $i = (2*intval(sqrt($n)%2)-1)*(intval((sqrt($n)+1)/2));
+        $nm = (4*(pow($i,2))) - (2*$i);
 
-    for($n = 0; $n <= $_GET['value']; $n++){
-        $r = intval(sqrt($n));
-        $rSquared = pow($r, 2);
-
-        $x = ($n < $rSquared+$r ? $n-$rSquared : $r);
-        $y = ($n<$rSquared+$r ? $r : $rSquared+ (2*$r)-$n);
-
+        $x = ($n >= $nm ? $i : $i-($i/abs($i))*($nm-$n));
+        $y = ($n >= $nm ? $i+($i/abs($i))*($nm-$n) : $i);
+        $x +=16;
+        $y +=16;
         $grid[$y][$x] = $n;
         
         $m = max($x,$y);
@@ -75,6 +87,7 @@ if(isset($_GET['value'])){
     }
 
     print2DArray($grid);
+    echo '</div>';
 } else {
     echo "<br>Please input a number...";
     
